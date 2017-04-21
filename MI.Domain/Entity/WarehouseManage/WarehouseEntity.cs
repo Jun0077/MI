@@ -29,7 +29,7 @@ namespace MI.Domain.Entity.WarehouseManage
         /// <summary>
         /// 仓库类型1:实体0:虚拟仓库
         /// </summary>
-        public int F_Type { get; set; }
+        public int? F_Type { get; set; }
 
         /// <summary>
         /// 联系地址

@@ -756,6 +756,7 @@
     <Content Include="Areas\WarehouseManage\Views\Web.config" />
     <Content Include="Areas\WarehouseManage\Views\Warehouse\Form.cshtml" />
     <Content Include="Areas\WarehouseManage\Views\Warehouse\ShelfList.cshtml" />
+    <Content Include="Areas\WarehouseManage\Views\Warehouse\ShelfEdit.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

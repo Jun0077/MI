@@ -147,6 +147,10 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
             return Content(result.ToJson());
         }
 
+        public ActionResult ShelfEdit()
+        {
+            return View();
+        }
         #endregion
 
     }

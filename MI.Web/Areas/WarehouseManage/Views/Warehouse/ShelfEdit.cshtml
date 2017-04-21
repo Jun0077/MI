@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "ShelfEdit";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table  class="form">
+            <tr>
+                <th class="formTitle">编号</th>
+                <td class="formValue">
+                    <input type="text" id="F_EnCode" name="F_EnCode" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">名称</th>
+                <td class="formValue">
+                    <input type="text" id="F_FullName" name="F_FullName" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">层数</th>
+                <td class="formValue">
+                    <input type="number" id="F_ShelfLayer" name="F_ShelfLayer" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">储位数</th>
+                <td class="formValue">
+                    <input type="number" id="F_ShelfNumber" name="F_ShelfNumber" class="form-control" />
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="F_ParentId" name="F_ParentId"/>
+    </div>
+</form>
+<script type="text/javascript">
+    var keyValue = $.request("keyValue");
+
+    function init() {
+        if (keyValue) {
+            $.ajax({
+                url: '/WarehouseManage/Warehouse/GetFormJson',
+                type: 'post',
+                dataType: "json",
+                async: false,
+                data: {
+                    keyValue: keyValue
+                },
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            })
+        }
+    }
+
+    $(function () {
+        var parentId = $.request("parentId");
+        $('#F_ParentId').val(parentId);
+        init();
+    });
+    function submitForm() {
+       
+
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/WarehouseManage/Warehouse/SubmitForm?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                $.currentWindow().$("#gridList").resetSelection();
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>

@@ -14,14 +14,14 @@
                     <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
                 </div>
                 <div class="btn-group">
-                    <a id="NF-add" authorize="yes" class="btn btn-primary" onclick="btn_add()"><i class="fa fa-plus"></i>新 建</a>
+                    <a id="MI-add" authorize="yes" class="btn btn-primary" onclick="btn_add()"><i class="fa fa-plus"></i>新 建</a>
                 </div>
                 <div class="operate">
                     <ul class="nav nav-pills">
                         <li class="first">已选中<span>1</span>项</li>
-                        <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修 改</a></li>
-                        <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删 除</a></li>
-                        <li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查 看</a></li>
+                        <li><a id="MI-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修 改</a></li>
+                        <li><a id="MI-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删 除</a></li>
+                        <li><a id="MI-check" authorize="yes" onclick="btn_check()"><i class="fa fa-search-plus"></i>查 看</a></li>
                     </ul>
                     <a href="javascript:;" class="close"></a>
                 </div>
@@ -49,6 +49,66 @@
     </div>
 </div>
 <script type="text/javascript">
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增货架",
+            url: "/WarehouseManage/Warehouse/ShelfEdit?parentId=" + $("#whTree").getCurrentNode().id,
+            width: "480px",
+            height: "400px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        })
+    }
+
+    function btn_edit() {
+        var keyValue = $('#gridList').jqGridRowValue().F_Id;
+        var parentId =$('#gridList').jqGridRowValue().F_ParentId;
+        if (keyValue) {
+            $.modalOpen({
+                id: "Form",
+                title: "修改货架",
+                url: "/WarehouseManage/Warehouse/ShelfEdit?keyValue=" + keyValue+"&parentId="+parentId,
+                width: "480px",
+                height: "400px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+
+    }
+
+
+    function btn_delete() {
+        $.deleteForm({
+            url: "/WarehouseManage/Warehouse/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().F_Id },
+            success: function () {
+                $.currentWindow().$("#gridList").resetSelection();
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+    function btn_check() {
+        var keyValue = $('#gridList').jqGridRowValue().F_Id;
+        var parentId = $('#gridList').jqGridRowValue().F_ParentId;
+        if (keyValue) {
+            $.modalOpen({
+                id: "Form",
+                title: "查看货架",
+                url: "/WarehouseManage/Warehouse/ShelfEdit?keyValue=" + keyValue + "&parentId=" + parentId,
+                width: "480px",
+                height: "400px",
+                callBack: null,
+                btn:null
+            });
+        }
+
+    }
+
     function treeView() {
         $("#whTree").treeview({
             url: "/WarehouseManage/Warehouse/GetTreeJson",
@@ -71,11 +131,29 @@
             url: '/WarehouseManage/Warehouse/GetShelfGridJson',
             colModel: [
                  { label: '主键', name: 'F_Id', hidden: true, key: true },
+                 { label: '父级', name: 'F_ParentId', hidden: true },
                  { label: '编 号', name: 'F_EnCode', width: 120, align: 'center' },
                  { label: '名 称', name: 'F_FullName', width: 120, align: 'center' },
-                 { label: '区 域', name: 'F_ParentId', width: 120, align: 'center' },
-                 { label: '层 数', name: 'F_FullName', width: 120, align: 'center' },
-                 { label: '储位数', name: 'F_FullName', width: 120, align: 'center' },
+                 {
+                     label: '区 域', name: 'F_ParentId', width: 120, align: 'center',
+                     formatter: function (cellValue) {
+                         var text = "";
+                         $.ajax({
+                             url: '/WarehouseManage/Warehouse/GetFormJson?keyValue='+cellValue,
+                             dataType: 'json',
+                             async: false,
+                             cache: true,
+                             success: function (data) {
+                                 if (data) {
+                                     text = data.F_FullName;
+                                 }
+                             }
+                         });
+                         return text;
+                     }
+                 },
+                 { label: '层 数', name: 'F_ShelfLayer', width: 120, align: 'center' },
+                 { label: '储位数', name: 'F_ShelfNumber', width: 120, align: 'center' },
                  { label: '创建时间', name: 'F_CreatorTime', width: 120, align: 'center' },
                  { label: '更新时间', name: 'F_LastModifyTime', width: 120, align: 'left' }
 

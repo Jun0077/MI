@@ -14,6 +14,9 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
         //
         // GET: /WarehouseManage/Warehouse/
        private  WarehouseApp warehouseApp = new WarehouseApp();
+
+        #region 仓库列表
+
         [ValidateAntiForgeryToken]
         public ActionResult SubmitForm(WarehouseEntity entity, string keyValue)
         {
@@ -38,6 +41,7 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
+                data = data.TreeWhere(t => t.F_Type != null);
             }
             var treeList = new List<TreeGridModel>();
             foreach (WarehouseEntity item in data)
@@ -54,6 +58,29 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
             return Content(treeList.TreeGridJson());
         }
 
+        public ActionResult GetTreeJson()
+        {
+            var data = warehouseApp.GetList();
+            data = data.TreeWhere(t => t.F_Type != null);
+            var treeList = new List<TreeViewModel>();
+            foreach (WarehouseEntity item in data)
+            {
+                TreeViewModel tree = new TreeViewModel();
+                bool hasChildren = data.Count(t => t.F_ParentId == item.F_Id) == 0 ? false : true;
+                tree.id = item.F_Id;
+                tree.text = item.F_FullName;
+                tree.value = item.F_EnCode;
+                tree.parentId = item.F_ParentId;
+                tree.isexpand = true;
+                tree.complete = true;
+                tree.hasChildren = hasChildren;
+                treeList.Add(tree);
+            }
+            return Content(treeList.TreeViewJson());
+        }
+
+        [HttpGet]
+        [HandlerAjaxOnly]
         public ActionResult GetTreeSelectJson()
         {
            
@@ -81,6 +108,46 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
             warehouseApp.DeleteForm(keyValue);
             return Success("删除成功！");
         }
+        #endregion
+
+        #region 货架列表
+        public ActionResult ShelfList()
+        {
+            return View();
+        }
+
+        public ActionResult GetShelfGridJson(Pagination pagination, string parentId, string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(parentId))
+            {
+                return Content(new
+                {
+                    rows = new List<object> { },
+                    total = pagination.total,
+                    page = pagination.page,
+                    records = pagination.records
+                }.ToJson());
+            }
+            var data = warehouseApp.GetList();
+
+            data = data.Where(t => t.F_ParentId == parentId).ToList();
+            data = data.Where(t => t.F_Type == null)?.ToList();
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                data = data.Where(t => t.F_FullName.Contains(keyword)).ToList();
+            }
+
+            var result = new
+            {
+                rows = data,
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records
+            };
+            return Content(result.ToJson());
+        }
+
+        #endregion
 
     }
 }

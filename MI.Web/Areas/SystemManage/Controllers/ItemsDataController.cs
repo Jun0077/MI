@@ -25,10 +25,16 @@ namespace MI.Web.Areas.SystemManage.Controllers
             return Content(data.ToJson());
         }
 
+        /// <summary>
+        /// 查询出有效的字典信息
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
 
         public ActionResult GetSelectBindJson(string itemId, string keyword)
         {
-            var data = itemsDetailApp.GetList(itemId, keyword);
+            var data = itemsDetailApp.GetList(itemId, keyword).Where(_ => _.F_EnabledMark == true);
             var treeList = new List<object>();
             foreach (ItemsDetailEntity item in data)
             {

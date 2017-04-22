@@ -9,13 +9,13 @@
             <tr>
                 <th class="formTitle">编号</th>
                 <td class="formValue">
-                    <input type="text" id="F_EnCode" name="F_EnCode" class="form-control" />
+                    <input type="text" id="F_EnCode" name="F_EnCode" class="form-control required" />
                 </td>
             </tr>
             <tr>
                 <th class="formTitle">名称</th>
                 <td class="formValue">
-                    <input type="text" id="F_FullName" name="F_FullName" class="form-control" />
+                    <input type="text" id="F_FullName" name="F_FullName" class="form-control required" />
                 </td>
             </tr>
             <tr>
@@ -25,9 +25,23 @@
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">储位数</th>
+                <th class="formTitle">储位数(层)</th>
                 <td class="formValue">
                     <input type="number" id="F_ShelfNumber" name="F_ShelfNumber" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input type="number" id="F_SortCode" name="F_SortCode" class="form-control required" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">状态</th>
+                <td class="formValue">
+                    <div class="ckbox">
+                        <input id="F_EnabledMark" name="F_EnabledMark" type="checkbox" checked="checked"><label for="F_EnabledMark">有效</label>
+                    </div>
                 </td>
             </tr>
         </table>

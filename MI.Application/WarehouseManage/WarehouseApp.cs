@@ -13,7 +13,7 @@ namespace MI.Application.WarehouseManage
     public class WarehouseApp
     {
         private  IWarehouseRepository repository = new WarehouseRepository();
-
+        private IStorageLocationReository storagelocationApp = new StorageLocationReository();
         /// <summary>
         /// 提交仓库信息
         /// </summary>
@@ -66,12 +66,22 @@ namespace MI.Application.WarehouseManage
             {
                 throw new Exception("删除失败！操作的对象包含了下级数据。");
             }
+            else if (!storagelocationApp.IsUsingForStorageLocation(keyValue))
+            {
+                throw new Exception("删除失败！操作的对象已经有库位在使用中。");
+            }
             else
             {
                 repository.Delete(t => t.F_Id == keyValue);
             }
         }
 
+        public string GetStorageLocationPreEncode(string warehouseId)
+        {
+            if (string.IsNullOrWhiteSpace(warehouseId))
+                return null;
+            return repository.GetStorageLocationPreEncode(warehouseId);
+        }
 
     }
 }

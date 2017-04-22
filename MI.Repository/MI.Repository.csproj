@@ -54,6 +54,7 @@
     <Compile Include="SystemSecurity\DbBackupRepository.cs" />
     <Compile Include="SystemSecurity\FilterIPRepository.cs" />
     <Compile Include="SystemSecurity\LogRepository.cs" />
+    <Compile Include="WarehouseManage\StorageLocationReository.cs" />
     <Compile Include="WarehouseManage\WarehouseRepository.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,7 @@
                         <li><a id="MI-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修 改</a></li>
                         <li><a id="MI-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删 除</a></li>
                         <li><a id="MI-check" authorize="yes" onclick="btn_check()"><i class="fa fa-search-plus"></i>查 看</a></li>
+                        <li><a id="MI-location" authorize="yes" onclick="btn_location()" ><i class="fa fa-location-arrow"></i>查看库位</a></li>
                     </ul>
                     <a href="javascript:;" class="close"></a>
                 </div>
@@ -50,6 +51,9 @@
 </div>
 <script type="text/javascript">
     function btn_add() {
+        if (!$("#whTree").getCurrentNode())
+            return;
+
         $.modalOpen({
             id: "Form",
             title: "新增货架",
@@ -154,6 +158,13 @@
                  },
                  { label: '层 数', name: 'F_ShelfLayer', width: 120, align: 'center' },
                  { label: '储位数', name: 'F_ShelfNumber', width: 120, align: 'center' },
+                 { label: '排 序', name: 'F_SortCode', width: 120, align: 'center' },
+                 {
+                      label: '状 态', name: 'F_EnabledMark', width: 60, align: 'center',
+                      formatter: function (cellvalue) {
+                          return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                      }
+                  },
                  { label: '创建时间', name: 'F_CreatorTime', width: 120, align: 'center' },
                  { label: '更新时间', name: 'F_LastModifyTime', width: 120, align: 'left' }
 
@@ -170,6 +181,22 @@
         });
     }
 
+    function btn_location() {
+        var keyValue = $('#gridList').jqGridRowValue().F_Id;
+        var shelfLayer = $('#gridList').jqGridRowValue().F_ShelfLayer;///层数
+        var shelfNumber = $('#gridList').jqGridRowValue().F_ShelfNumber;//每层的存储位置个数
+        var fullName = $('#gridList').jqGridRowValue().F_FullName;//货架名称
+        if (keyValue) {
+            $.modalOpen({
+                id: "StorageLocation",
+                title: fullName+"库位信息",
+                url: "/WarehouseManage/StorageLocation/Index?keyValue=" + keyValue + "&shelfLayer=" + shelfLayer + "&shelfNumber=" + shelfNumber,
+                width: "1024px",
+                height: "900px",
+                btn:null
+            });
+        }
+    }
 
     $(function () {
         $('#layout').layout();

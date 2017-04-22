@@ -64,6 +64,7 @@
     <Compile Include="SystemSecurity\FilterIPMap.cs" />
     <Compile Include="SystemSecurity\LogMap.cs" />
     <Compile Include="WarehouseManage\WarehouseMap.cs" />
+    <Compile Include="WarehouseManage\StorageLocationMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MI.Domain\MI.Domain.csproj">

@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<style type="text/css">
+    .row-body {
+        border-bottom: 1px solid #000;
+    }
+
+    .locationItem {
+        width: 100px;
+        height: 70px;
+        text-align: center;
+        background-color: wheat;
+        float: left;
+        margin-left: 10px;
+        margin-top:5px;
+    }
+
+        .locationItem div {
+            width: 90px;
+            height: 20px;
+            margin-top: 25px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+</style>
+<div class="topPanel">
+    <div class="toolbar">
+        @*<div style="margin-right:20px;float:left;font-family: inherit; font-weight: 500;  color: inherit;padding-right:2px;">
+                <span>层数</span>
+                <span>1</span>
+                <span>每层储位个数:</span>
+                <span>2</span>
+            </div>*@
+        <ul class="nav nav-pills" style="position:absolute;left:22px;">
+            <li class="first">层数:<span><input type="text" value="" id="F_ShelfLayer" name="F_ShelfLayer" style="height:15px;margin-left:5px;" disabled="disabled" /></span></li>
+            <li class="first" style="margin-left:10px;">每层储位个数:<span><input id="F_ShelfNumber" name="F_ShelfNumber" type="text" value="" style="height:15px;margin-left:5px;" disabled="disabled" /></span></li>
+        </ul>
+        <div class="btn-group">
+            <a id="MI-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>创建库位</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="MI-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修 改</a></li>
+                <li><a id="MI-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删 除</a></li>
+                <li><a id="MI-check" authorize="yes" onclick="btn_check()"><i class="fa fa-search-plus"></i>查 看</a></li>
+                <li><a id="MI-location" authorize="yes" onclick="btn_location()"><i class="fa fa-location-arrow"></i>查看库位</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        <script>$('.toolbar').authorizeButton()</script>
+    </div>
+
+</div>
+<div class="panel panel-default" id="storageLocationContainner">
+    <div class="panel-body row-body">
+        <div class="locationItem">
+            <div>对私待处理任务</div>
+        </div>
+        <div class="locationItem">
+            <div>对私待处理任务</div>
+        </div>
+        <div class="locationItem">
+            <div>对私待处理任务</div>
+        </div>
+    </div>
+    <div class="panel-body row-body">
+        <div class="locationItem">
+            <div>对私待处理任务</div>
+        </div>
+        <div class="locationItem">
+            <div>对私待处理任务</div>
+        </div>
+        <div class="locationItem">
+            <div>对私待处理任务</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var keyValue = $.request("keyValue");
+    var shelfLayer = $.request("shelfLayer");
+    var shelfNumber = $.request("shelfNumber");
+
+    function locationClick() {
+        var keyValue = $(this).data("id");
+        
+        if (keyValue) {
+            $.modalOpen({
+                id: "Form",
+                title: "设置库位信息",
+                url: "/WarehouseManage/StorageLocation/Form?keyValue="+keyValue,
+                width: "450px",
+                height: "380px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+    }
+
+    function initControl() {
+        if (shelfLayer)
+            $('#F_ShelfLayer').val(shelfLayer);
+        
+        if(shelfNumber)
+            $('#F_ShelfNumber').val(shelfNumber);
+
+        if (keyValue) {
+            $.fetch({
+                url: '/WarehouseManage/StorageLocation/GetListJson?warehouseId=' + keyValue
+            }).done(function (data) {
+                if (data.length > 0) {
+                    for (var index in data) {
+                        var rows = "";
+                        var html = `<div class="panel-body row-body">${rows}</div>`
+                        var items = data[index];
+                        for (var number in items) {
+                            var e = items[number];
+                            var item = ` <div class="locationItem" data-id="${e.F_Id}"><div>${e.F_EnCode}</div></div> `;
+                            rows += item;
+                        }
+                       
+                        $('#storageLocationContainner').append(`<div class="panel-body row-body">`+rows+`</div>`);
+                    }
+                    $('.locationItem').on('click', locationClick);
+                }
+            });
+        }
+    }
+
+    function btn_add() {
+        $.confirmForm({
+            url: '/WarehouseManage/StorageLocation/SubmitBatch?warehouseId=' + keyValue,
+            prompt: "注：您确定要创建储位数据吗？",
+            success: function () {
+                $.currentWindow();
+                $.reload();
+            }
+        })
+    }
+    
+
+    $(function () {
+        $('#storageLocationContainner').empty();
+        initControl();
+        
+    });
+</script>

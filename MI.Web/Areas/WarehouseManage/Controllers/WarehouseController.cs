@@ -38,10 +38,10 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
         {
           
             var data = warehouseApp.GetList();
+            data = data.TreeWhere(t => t.F_Type != 4);
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
-                data = data.TreeWhere(t => t.F_Type != null);
             }
             var treeList = new List<TreeGridModel>();
             foreach (WarehouseEntity item in data)
@@ -61,7 +61,7 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
         public ActionResult GetTreeJson()
         {
             var data = warehouseApp.GetList();
-            data = data.TreeWhere(t => t.F_Type != null);
+            data = data.TreeWhere(t => t.F_Type != 4);
             var treeList = new List<TreeViewModel>();
             foreach (WarehouseEntity item in data)
             {
@@ -131,7 +131,7 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
             var data = warehouseApp.GetList();
 
             data = data.Where(t => t.F_ParentId == parentId).ToList();
-            data = data.Where(t => t.F_Type == null)?.ToList();
+            data = data.Where(t => t.F_Type == 4)?.ToList();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 data = data.Where(t => t.F_FullName.Contains(keyword)).ToList();
@@ -151,6 +151,9 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
         {
             return View();
         }
+
+
+
         #endregion
 
     }

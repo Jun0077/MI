@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">编 号</th>
+                <td class="formValue">
+                    <input type="text" id="F_EnCode" name="F_EnCode" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">库位类型</th>
+                <td class="formValue">
+                    <select id="F_LocationType" name="F_LocationType"></select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">状 态</th>
+                <td class="formValue">
+                    <select id="F_Status" name="F_Status"></select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">备 注</th>
+                <td class="formValue">
+                    <textarea id="F_Description" name="F_Description" class="form-control"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<script type="text/javascript">
+    var keyValue = $.request("keyValue");
+    function initControl() {
+
+        $('#F_LocationType').bindSelect({
+            url: "/SystemManage/ItemsData/GetSelectBindJson?itemId=714a342b-d8c4-40ba-a7ae-67d540a84612&keyword="
+        });
+        $('#F_Status').bindSelect({
+            url: "/SystemManage/ItemsData/GetSelectBindJson?itemId=a20fce11-edde-4281-bbb3-2719eb318517&keyword="
+        });
+    }
+
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/WarehouseManage/StorageLocation/SubmitForm?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                top.StorageLocation.location.reload();
+            }
+        })
+    }
+  
+
+
+    $(function () {
+        initControl();
+        $.fetch({
+            url: '/WarehouseManage/StorageLocation/GetFormJson?keyValue=' + keyValue
+        }).done(function (data) {
+            if (data) {
+                $("#form1").formSerialize(data);
+            }
+        });
+    })
+
+</script>

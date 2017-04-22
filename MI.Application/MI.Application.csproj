@@ -60,6 +60,7 @@
     <Compile Include="SystemSecurity\DbBackupApp.cs" />
     <Compile Include="SystemSecurity\FilterIPApp.cs" />
     <Compile Include="SystemSecurity\LogApp.cs" />
+    <Compile Include="WarehouseManage\StorageLocationApp.cs" />
     <Compile Include="WarehouseManage\WarehouseApp.cs" />
   </ItemGroup>
   <ItemGroup>

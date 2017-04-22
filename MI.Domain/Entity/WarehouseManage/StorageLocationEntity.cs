@@ -1,50 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MI.Domain.Entity.WarehouseManage
 {
-    public class WarehouseEntity : IEntity<WarehouseEntity>, ICreationAudited, IDeleteAudited, IModificationAudited
+    /// <summary>
+    /// 库位信息表
+    /// </summary>
+   public class StorageLocationEntity : IEntity<WarehouseEntity>, ICreationAudited, IDeleteAudited, IModificationAudited
     {
-
         public string F_Id { get; set; }
 
-        public string F_ParentId { get; set; }
+        public string F_Warehouse { get; set; }
+
+        public int? F_LocationType { get; set; }
+
 
         /// <summary>
-        /// 组织主键
+        /// 1已占用 0:空闲中
         /// </summary>
-        public string F_OrganizeId { get; set; }
+        public int F_Status { get; set; }
 
         /// <summary>
-        /// 编码
+        /// 所属的层数
         /// </summary>
+        public int F_LayerNumber { get; set; }
+
+
         public string F_EnCode { get; set; }
-
-        public string F_FullName { get; set; }
-
-        /// <summary>
-        /// 仓库类型1:实体0:虚拟仓库
-        /// </summary>
-        public int? F_Type { get; set; }
-
-        /// <summary>
-        /// 联系地址
-        /// </summary>
-        public string F_Address { get; set; }
-
-        /// <summary>
-        /// 货架存储位数
-        /// </summary>
-        public int? F_ShelfNumber { get; set; }
-
-        /// <summary>
-        /// 货架存储层数
-        /// </summary>
-        public int? F_ShelfLayer { get; set; }
 
         public bool? F_AllowEdit { get; set; }
 
@@ -62,5 +47,6 @@ namespace MI.Domain.Entity.WarehouseManage
         public string F_LastModifyUserId { get; set; }
         public DateTime? F_DeleteTime { get; set; }
         public string F_DeleteUserId { get; set; }
+
     }
 }

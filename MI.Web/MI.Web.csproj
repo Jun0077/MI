@@ -140,6 +140,7 @@
     <Compile Include="Areas\SystemSecurity\Controllers\LogController.cs" />
     <Compile Include="Areas\SystemSecurity\Controllers\ServerMonitoringController.cs" />
     <Compile Include="Areas\SystemSecurity\SystemSecurityAreaRegistration.cs" />
+    <Compile Include="Areas\WarehouseManage\Controllers\StorageLocationController.cs" />
     <Compile Include="Areas\WarehouseManage\Controllers\WarehouseController.cs" />
     <Compile Include="Areas\WarehouseManage\WarehouseManageAreaRegistration.cs" />
     <Compile Include="Controllers\ClientsDataController.cs" />
@@ -757,6 +758,8 @@
     <Content Include="Areas\WarehouseManage\Views\Warehouse\Form.cshtml" />
     <Content Include="Areas\WarehouseManage\Views\Warehouse\ShelfList.cshtml" />
     <Content Include="Areas\WarehouseManage\Views\Warehouse\ShelfEdit.cshtml" />
+    <Content Include="Areas\WarehouseManage\Views\StorageLocation\Index.cshtml" />
+    <Content Include="Areas\WarehouseManage\Views\StorageLocation\Form.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

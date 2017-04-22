@@ -7,6 +7,12 @@
     <div style="padding-top: 20px; margin-right: 20px;">
         <table class="form">
             <tr>
+                <th class="formTitle">公司</th>
+                <td class="formValue">
+                    <select id="F_OrganizeId" name="F_OrganizeId" class="form-control required"></select>
+                </td>
+            </tr>
+            <tr>
                 <th class="formTitle">父级</th>
                 <td class="formValue">
                     <select id="F_ParentId" name="F_ParentId" class="form-control required">
@@ -17,7 +23,7 @@
             <tr>
                 <th class="formTitle">编号</th>
                 <td class="formValue">
-                    <input type="text" class="form-control" id="F_EnCode" name="F_EnCode" />
+                    <input type="text" class="form-control required" id="F_EnCode" name="F_EnCode" />
                 </td>
             </tr>
             <tr>
@@ -34,12 +40,6 @@
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">公司</th>
-                <td class="formValue">
-                    <select id="F_OrganizeId" name="F_OrganizeId" class="form-control required"></select>
-                </td>
-            </tr>
-            <tr>
                 <th class="formTitle">状态</th>
                 <td class="formValue">
                     <div class="ckbox">
@@ -51,6 +51,12 @@
                 <th class="formTitle">地址</th>
                 <td class="formValue">
                     <input type="text" id="F_Address" name="F_Address" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input type="number" id="F_SortCode" name="F_SortCode" class="form-control required" />
                 </td>
             </tr>
         </table>

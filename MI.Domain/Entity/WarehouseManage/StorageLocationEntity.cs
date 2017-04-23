@@ -26,7 +26,7 @@ namespace MI.Domain.Entity.WarehouseManage
         /// <summary>
         /// 所属的层数
         /// </summary>
-        public int F_LayerNumber { get; set; }
+        public int? F_LayerNumber { get; set; }
 
 
         public string F_EnCode { get; set; }

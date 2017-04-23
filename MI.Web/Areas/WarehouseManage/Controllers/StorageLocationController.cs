@@ -46,10 +46,14 @@ namespace MI.Web.Areas.WarehouseManage.Controllers
             return Content(data.ToJson());
         }
 
+
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [ValidateAntiForgeryToken]
         public ActionResult SubmitForm(StorageLocationEntity entity, string keyValue)
         {
             app.SubmitForm(entity, keyValue);
-            return Success("更新库位信息成功");
+            return Success("操作成功。");
         }
 
     }

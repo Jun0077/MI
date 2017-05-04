@@ -9,7 +9,7 @@
             <tr>
                 <th class="formTitle">编 号</th>
                 <td class="formValue">
-                    <input type="text" id="F_EnCode" name="F_EnCode" class="form-control" />
+                    <input type="text" id="F_EnCode" name="F_EnCode" class="form-control" disabled="disabled"    />
                 </td>
             </tr>
             <tr>
@@ -22,6 +22,14 @@
                 <th class="formTitle">状 态</th>
                 <td class="formValue">
                     <select id="F_Status" name="F_Status"></select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">是否有效</th>
+                <td class="formValue"> 
+                    <div class="ckbox">
+                        <input id="F_EnabledMark" name="F_EnabledMark" type="checkbox" checked="checked"><label for="F_EnabledMark">有效</label>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -54,6 +62,7 @@
             url: "/WarehouseManage/StorageLocation/SubmitForm?keyValue=" + keyValue,
             param: $("#form1").formSerialize(),
             success: function () {
+                top.$('#loadingPage').css("display","none");
                 top.StorageLocation.location.reload();
             }
         })

@@ -57,6 +57,21 @@ namespace MI.Web.Areas.SystemManage.Controllers
             }
             return Content(treeList.TreeGridJson());
         }
+
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetAreaListJson(string code)
+        {
+            var data = areaApp.GetList();
+          
+            return Content(data.Where(_=>_.F_ParentId == code).OrderBy(_=>_.F_EnCode).Select(_=>new {
+                id = _.F_EnCode,
+                text = _.F_FullName,
+                parentId = _.F_ParentId
+            }).ToJson());
+        }
+
+
         [HttpGet]
         [HandlerAjaxOnly]
         public ActionResult GetFormJson(string keyValue)

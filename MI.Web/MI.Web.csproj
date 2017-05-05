@@ -124,6 +124,8 @@
     <Compile Include="Areas\ReportManage\Controllers\EchartsController.cs" />
     <Compile Include="Areas\ReportManage\Controllers\HighchartsController.cs" />
     <Compile Include="Areas\ReportManage\ReportManageAreaRegistration.cs" />
+    <Compile Include="Areas\SupplierManage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\SupplierManage\SupplierManageAreaRegistration.cs" />
     <Compile Include="Areas\SystemManage\Controllers\AreaController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DutyController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\ItemsDataController.cs" />
@@ -760,6 +762,10 @@
     <Content Include="Areas\WarehouseManage\Views\Warehouse\ShelfEdit.cshtml" />
     <Content Include="Areas\WarehouseManage\Views\StorageLocation\Index.cshtml" />
     <Content Include="Areas\WarehouseManage\Views\StorageLocation\Form.cshtml" />
+    <Content Include="Areas\SupplierManage\Views\Home\Index.cshtml" />
+    <Content Include="Areas\SupplierManage\Views\Web.config" />
+    <Content Include="Areas\SupplierManage\Views\Home\Form.cshtml" />
+    <Content Include="Areas\SupplierManage\Views\Home\Details.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

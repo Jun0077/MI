@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">供应商名称:</th>
+                <td class="formValue">
+                    <input type="text" id="F_FullName" name="F_FullName" class="form-control required" />
+                </td>
+                <th class="formTitle">别 名:</th>
+                <td class="formValue">
+                    <input type="text" id="F_NickName" name="F_NickName" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">组 织:</th>
+                <td class="formValue">
+                    <select class="form-control required" id="F_OrganizeId" name="F_OrganizeId"></select>
+                </td>
+                <th class="formTitle">供应商类型</th>
+                <td class="formValue">
+                    <select class="form-control" id="F_SupplierType" name="F_SupplierType">
+                        <option value="">===请选择===</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">省 份:</th>
+                <td class="formValue">
+                    <select id="F_AreaIdProvince" name="F_AreaIdProvince" class="form-control">
+                        <option value="">===请选择===</option>
+                    </select>
+                </td>
+                <th class="formTitle">
+                    市:
+                </th>
+                <td class="formValue">
+                    <select id="F_AreaIdCity" name="F_AreaIdCity" class="form-control">
+                        <option value="">===请选择===</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">联系人:</th>
+                <td class="formValue">
+                    <input type="text" id="F_Linkman" name="F_Linkman" class="form-control required" />
+                </td>
+                <th class="formTitle">联系电话：</th>
+                <td class="formValue">
+                    <input type="text" id="F_ContactNumber" name="F_ContactNumber" class="form-control required" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">邮 箱:</th>
+                <td class="formValue">
+                    <input type="text" id="F_Email" name="F_Email" class="form-control" />
+                </td>
+                <th class="formTitle">传 真:</th>
+                <td class="formValue">
+                    <input type="text" id="F_Fax" name="F_Fax" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">联系地址:</th>
+                <td class="formValue" colspan="3">
+                    <input type="text" id="F_Address" name="F_Address" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">描 述:</th>
+                <td class="formValue" colspan="3">
+                    <textarea id="F_Description" name="F_Description" class="form-control"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<script type="text/javascript">
+    var keyValue = $.request("keyValue");
+    function initControl() {
+        $("#F_OrganizeId").bindSelect({
+            url: "/SystemManage/Organize/GetTreeSelectJson"
+        });
+        $('#F_SupplierType').bindSelect({
+            url: "/SystemManage/ItemsData/GetSelectBindJson?itemId=e887f708-6844-4b07-ad16-8f182a11ef6a&keyword="
+        });
+        $("#F_AreaIdProvince").bindSelect({
+            url: "/SystemManage/Area/GetAreaListJson?code=0"
+        });
+        $("#F_AreaIdProvince").on("change", function () {
+            var value = $(this).val();
+            $("#F_AreaIdCity").empty();
+            $("#F_AreaIdCity").append(' <option value="">===请选择===</option>');
+            if (value) {
+                $("#F_AreaIdCity").bindSelect({
+                    url: "/SystemManage/Area/GetAreaListJson?code=" + value
+                });
+            } else {
+                $("#F_AreaIdCity").bindSelect({
+                    url: "/SystemManage/Area/GetAreaListJson?code=-1"
+                });
+            }
+        });
+    }
+
+
+    function init() {
+        initControl();
+        if (keyValue) {
+            $.ajax({
+                url: '/SupplierManage/Home/GetFormJson',
+                data: { keyValue: keyValue },
+                async: false,
+                dataType: "json",
+                success: function (res) {
+                    if (res) {
+                        $("#form1").formSerialize(res);
+                        $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                        $("#form1").find('div.ckbox label').attr('for', '');
+                    }
+                }
+            })
+        }
+    }
+
+    $(function () {
+        init();
+    });
+</script>

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\SupplierManage\SupplierInfoEntity.cs" />
     <Compile Include="Entity\WarehouseManage\StorageLocationEntity.cs" />
     <Compile Include="Infrastructure\ICreationAudited.cs" />
     <Compile Include="Infrastructure\IDeleteAudited.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Entity\SystemSecurity\DbBackupEntity.cs" />
     <Compile Include="Entity\SystemSecurity\FilterIPEntity.cs" />
     <Compile Include="Entity\SystemSecurity\LogEntity.cs" />
+    <Compile Include="IRepository\SupplierManage\ISupplierRepository.cs" />
     <Compile Include="IRepository\WarehouseManage\IStorageLocationReository.cs" />
     <Compile Include="ViewModel\AuthorizeActionModel.cs" />
     <Compile Include="Entity\WarehouseManage\WarehouseEntity.cs" />
@@ -96,6 +98,7 @@
       <Name>MI.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

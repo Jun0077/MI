@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<div style="padding-right:20px;padding-top:5px;">
+    <form id="form1">
+        <table class="form">
+            <tr>
+                <th class="formTitle">条形码：</th>
+                <td class="formValue" colspan="3">
+                    <input type="text"id="F_EnCode" name="F_EnCode" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">商品名称：</th>
+                <td class="formValue">
+                    <input type="text" id="F_FullName" name="F_FullName" class="form-control required"/>
+                </td>
+                <th class="formTitle">商品别名：</th>
+                <td class="formValue">
+                    <input type="text" id="F_NickName" name="F_NickName" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">商品类别：</th>
+                <td class="formValue">
+                    <select id="F_ProductTypeId" name="F_ProductTypeId" class="form-control" disabled="disabled">
+                        <option value="">===请选择===</option>
+                    </select>
+                </td>
+                <th class="formTitle">生产厂家：</th>
+                <td class="formValue">
+                    <input type="text" id="F_Manufactory" name="F_Manufactory" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">基本单位：</th>
+                <td class="formValue">
+                    <select id="F_Unit" name="F_Unit" class="form-control">
+
+                    </select>
+                </td>
+                <th class="formTitle">保质期天数：</th>
+                <td class="formValue">
+                    <input type="number" id="F_ValidDate" name="F_ValidDate" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">选项:</th>
+                <td class="formValue" colspan="3">
+                    <div class="ckbox">
+                        <input type="checkbox" id="F_IsTreasure" name="F_IsTreasure"  /><label for="F_IsTreasure">贵重物品</label>
+                    </div>
+                    <div class="ckbox">
+                        <input type="checkbox" id="F_IsBreakables" name="F_IsBreakables"  /><label for="F_IsBreakables">易碎物品</label>
+                    </div>
+                    <div class="ckbox">
+                        <input type="checkbox" id="F_IsDangerous" name="F_IsDangerous"  /><label for="F_IsDangerous">危险品</label>
+                    </div>
+                    <div class="ckbox">
+                        <input type="checkbox" id="F_IsPerishableItem" name="F_IsPerishableItem"  /><label for="F_IsPerishableItem">易过期品</label>
+                    </div>
+                    <div class="ckbox">
+                        <input type="checkbox" id="F_IsUnShelfLife" name="F_IsUnShelfLife"  /><label for="F_IsUnShelfLife">永久日期品</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">商品体积：</th>
+                <td class="formValue">
+                    <input type="text" id="F_Bulk" name="F_Bulk" class="form-control" />
+                </td>
+                <th class="formTitle">商品颜色：</th>
+                <td class="formValue">
+                    <input type="text" id="F_Color" name="F_Color" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">商品形状:</th>
+                <td class="formValue">
+                    <input type="text" id="F_Shape" name="F_Shape" class="form-control" />
+                </td>
+                <th class="formTitle">商品重量：</th>
+                <td class="formValue">
+                    <input type="text" id="F_Weight" name="F_Weight" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">最大库存：</th>
+                <td class="formValue">
+                    <input type="text" id="F_MaxStock" name="F_MaxStock" class="form-control" />
+                </td>
+                <th class="formTitle">最小库存：</th>
+                <td class="formValue">
+                    <input type="text" id="F_MinStock" name="F_MinStock" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排 序:</th>
+                <td class="formValue">
+                    <input type="number" id="F_SortCode" name="F_SortCode" class="form-control" />
+                </td>
+                <th class="formTitle">状 态:</th>
+                <td class="formValue">
+                    <div class="ckbox">
+                        <input type="checkbox" id="F_EnabledMark" name="F_EnabledMark" readonly="readonly" checked="checked"  /><label for="F_EnabledMark">有 效</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">备 注:</th>
+                <td class="formValue" colspan="3">
+                    <textarea id="F_Description" name="F_Description" class="form-control"></textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    var keyValue = $.request("keyValue");
+    var productTypeId = $.request("productTypeKeyValue");
+    function init() {
+        $("#F_ProductTypeId").bindSelect({
+            url: "/ProductManage/PType/GetTreeSelectJson"
+        });
+        //
+        $('#F_Unit').bindSelect({
+            url: "/SystemManage/ItemsData/GetSelectBindJson?itemId=3577b71b-f131-4d4a-824b-e8962d984982&keyword="
+        });
+        if (keyValue) {
+            $.ajax({
+                url: "/ProductManage/Home/GetFormJson?keyValue=" + keyValue,
+                type: "post",
+                async: false,
+                dataType: "json",
+                success: function (res) {
+                    if (res) {
+                        $("#form1").formSerialize(res);
+                    }
+                }
+            })
+        } else {
+            if (productTypeId) {
+                var data = {
+                    F_ProductTypeId:productTypeId
+                };
+                $("#form1").formSerialize(data);
+            }
+        }
+       
+    }
+
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/ProductManage/Home/SubmitForm?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                 $.currentWindow().$("#gridList").resetSelection();
+                 $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+    $(function () {
+        init();
+    });
+</script>

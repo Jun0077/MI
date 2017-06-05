@@ -121,6 +121,9 @@
     <Compile Include="Areas\ExampleManage\Controllers\SendMessagesController.cs" />
     <Compile Include="Areas\ExampleManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\ExampleManage\ExampleManageAreaRegistration.cs" />
+    <Compile Include="Areas\ProductManage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\ProductManage\Controllers\PTypeController.cs" />
+    <Compile Include="Areas\ProductManage\ProductManageAreaRegistration.cs" />
     <Compile Include="Areas\ReportManage\Controllers\EchartsController.cs" />
     <Compile Include="Areas\ReportManage\Controllers\HighchartsController.cs" />
     <Compile Include="Areas\ReportManage\ReportManageAreaRegistration.cs" />
@@ -766,6 +769,11 @@
     <Content Include="Areas\SupplierManage\Views\Web.config" />
     <Content Include="Areas\SupplierManage\Views\Home\Form.cshtml" />
     <Content Include="Areas\SupplierManage\Views\Home\Details.cshtml" />
+    <Content Include="Areas\ProductManage\Views\Home\Index.cshtml" />
+    <Content Include="Areas\ProductManage\Views\Web.config" />
+    <Content Include="Areas\ProductManage\Views\PType\Index.cshtml" />
+    <Content Include="Areas\ProductManage\Views\PType\Form.cshtml" />
+    <Content Include="Areas\ProductManage\Views\Home\Form.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

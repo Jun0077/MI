@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="MI-add" class="btn btn-primary dropdown-text" authorize="yes" onclick="btn_add()"><i class="fa fa-plus"></i>新 增</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="MI-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修 改</a></li>
+                <li><a id="MI-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删 除</a></li>
+                <li><a id="MI-deatil" authorize="yes" onclick="btn_deatil()"><i class="fa fa-search-plus"></i>查 看</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        @*<script>$('.toolbar').authorizeButton()</script>*@
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="商品名称" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+</div>
+<script type="text/javascript">
+
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        $("#gridList").dataGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "F_FullName",
+            url: "/ProductManage/PType/GetGridTreeJson",
+            height: $(window).height() - 90,
+            colModel: [
+                { label: "主键", name: "F_Id", key: true,hidden:true },
+                { label: '', name: '', width: 20, align: 'left' },
+                { label: '名称', name: 'F_FullName', width: 200, align: 'left' },
+               
+                { label: '排序', name: 'F_SortCode', width: 80, align: 'center' },
+                {
+                    label: "有效", name: "F_EnabledMark", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == true ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: "备注", name: "F_Description", index: "F_Description", width: 200, align: "left" }
+            ]
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam', {
+                postData: { keyword: $("#txt_keyword").val() },
+            }).trigger('reloadGrid');
+        });
+    }
+
+    function btn_add() {
+        $.modalOpen({
+            id: "PTypeForm",
+            url: "/ProductManage/PType/Form",
+            width: "450px",
+            height:"290px",
+            title: "新增商品类别",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue) {
+            $.modalOpen({
+                id: "PTypeForm",
+                url: "/ProductManage/PType/Form?keyValue="+keyValue,
+                width: "450px",
+                height: "290px",
+                title: "编辑商品类别",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+    }
+
+    function btn_delete() {
+        
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue) {
+            $.deleteForm({
+                url: "/ProductManage/PType/DeleteProductType",
+                param: { keyValue: keyValue },
+                success: function () {
+                    $("#btn_search").trigger("click");
+                }
+            });
+        }
+    }
+
+    function btn_deatil() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue) {
+            $.modalOpen({
+                id: "PTypeForm",
+                url: "/ProductManage/PType/Form?keyValue=" + keyValue,
+                width: "450px",
+                height: "290px",
+                title: "查看商品类别",
+                btn:null
+            });
+        }
+    }
+
+    function init() {
+        gridList();
+    }
+
+    $(function () {
+        init();
+    });
+</script>

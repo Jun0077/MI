@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<div style="padding-top:20px;padding-right:20px;">
+    <form id="form1">
+        <table class="form">
+            <tr>
+                <th class="formTitle">父级:</th>
+                <td class="formValue">
+                    <select id="F_ParentId" name="F_ParentId" class="form-control">
+                        <option value="0">===请选择===</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">名 称：</th>
+                <td class="formValue">
+                    <input type="text" class="form-control required"  id="F_FullName" name="F_FullName"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排 序：</th>
+               <td class="formValue">
+                   <input type="number" id="F_SortCode" name="F_SortCode" class="form-control required" />
+               </td>
+            </tr>
+            <tr>
+                <th class="formTitle">状 态:</th>
+                <td class="formValue">
+                    <div class="ckbox">
+                        <input id="F_EnabledMark" name="F_EnabledMark" type="checkbox" checked="checked"><label for="F_EnabledMark">有 效</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    var keyValue = $.request("keyValue");
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/ProductManage/PType/SubmitType?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+              //  $.currentWindow().$("#gridList").resetSelection();
+                //  $.currentWindow().$("#gridList").trigger("reloadGrid");
+                top.frames["prodcutTypeList"].$("#gridList").resetSelection();
+                top.frames["prodcutTypeList"].$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+    function init() {
+        $("#F_ParentId").bindSelect({
+            url: "/ProductManage/PType/GetTreeSelectJson"
+        });
+        if (keyValue) {
+            $.ajax({
+                url: "/ProductManage/PType/GetProductTypeJson?keyValue="+keyValue,
+                type: "post",
+                dataType: "json",
+                async:false,
+                success: function (res) {
+                    if (res) {
+                        $("#form1").formSerialize(res);
+                    }
+                }
+            });
+        }
+    }
+    $(function () {
+        init();
+    });
+</script>

@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\ProductManage\BI_ProductInfoEntity.cs" />
+    <Compile Include="Entity\ProductManage\BI_ProductTypeEntity.cs" />
     <Compile Include="Entity\SupplierManage\SupplierInfoEntity.cs" />
     <Compile Include="Entity\WarehouseManage\StorageLocationEntity.cs" />
     <Compile Include="Infrastructure\ICreationAudited.cs" />
@@ -56,6 +58,8 @@
     <Compile Include="Entity\SystemSecurity\DbBackupEntity.cs" />
     <Compile Include="Entity\SystemSecurity\FilterIPEntity.cs" />
     <Compile Include="Entity\SystemSecurity\LogEntity.cs" />
+    <Compile Include="IRepository\ProductManage\IProductInfoRepository.cs" />
+    <Compile Include="IRepository\ProductManage\IProductTypeRepository.cs" />
     <Compile Include="IRepository\SupplierManage\ISupplierRepository.cs" />
     <Compile Include="IRepository\WarehouseManage\IStorageLocationReository.cs" />
     <Compile Include="ViewModel\AuthorizeActionModel.cs" />

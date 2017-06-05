@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProductManage\BI_ProductInfoMap.cs" />
+    <Compile Include="ProductManage\BI_ProductTypeMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupplierManage\SupplierInfoMap.cs" />
     <Compile Include="SystemManage\AreaMap.cs" />
